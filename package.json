@@ -1,0 +1,13 @@
+{
+  "name": "stader-staking-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@hashgraph/sdk": "2.11.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
