@@ -15,3 +15,5 @@ Stader team bring this utility which would enable you to Stake with your cli. Th
   - `node index.js`
 
 ## Disclaimer
+
+Please note that this code is not audited. Use it at your own risk.
