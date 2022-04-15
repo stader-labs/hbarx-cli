@@ -7,10 +7,6 @@ import {
   Hbar,
   PrivateKey,
 } from "@hashgraph/sdk";
-
-// import dotenv from "dotenv";
-// dotenv.config();
-// const readline = require("readline");
 import readline from "readline";
 const rl = readline.createInterface({
   input: process.stdin,
@@ -69,8 +65,6 @@ const getBalance = async (operatorId) => {
 const main = async () => {
   try {
     rl.question("What is your account id? ", async (accountId) => {
-      // // TODO: Log the answer in a database
-      // console.log(`Thank you for your valuable feedback: ${answer}`);
       const operatorId = AccountId.fromString(accountId);
       rl.question(
         "What is your account Private key (We do not store or upload this key)? ",
