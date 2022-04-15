@@ -8,9 +8,14 @@ import {
   PrivateKey,
 } from "@hashgraph/sdk";
 
-import dotenv from "dotenv";
-
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
+// const readline = require("readline");
+import readline from "readline";
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 const client = Client.forMainnet();
 const tokenId = "0.0.834116";
@@ -63,22 +68,24 @@ const getBalance = async (operatorId) => {
 };
 const main = async () => {
   try {
-    if (!process.env.OPERATOR_ID || !process.env.OPERATOR_KEY) {
-      throw new Error(
-        "Operator ID and Key are required. Please set them in .env file"
+    rl.question("What is your account id? ", async (accountId) => {
+      // // TODO: Log the answer in a database
+      // console.log(`Thank you for your valuable feedback: ${answer}`);
+      const operatorId = AccountId.fromString(accountId);
+      rl.question(
+        "What is your account Private key (We do not store or upload this key)? ",
+        async (privateKey) => {
+          const operatorKey = PrivateKey.fromString(privateKey);
+          client.setOperator(operatorId, operatorKey);
+          await getBalance(operatorId);
+          rl.question("How much would you like to stake? ", async (amount) => {
+            await stake(operatorId, amount);
+            await getBalance(operatorId);
+            rl.close();
+          });
+        }
       );
-    }
-
-    const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-    const operatorKey = PrivateKey.fromString(process.env.OPERATOR_KEY);
-    client.setOperator(operatorId, operatorKey);
-    await getBalance(operatorId);
-    if (!process.env.STAKE_AMOUNT) {
-      throw new Error("Stake amount is required. Please set it in .env file");
-    }
-    await stake(operatorId, process.env.STAKE_AMOUNT);
-    await getBalance(operatorId);
-    process.exit(0);
+    });
   } catch (e) {
     console.log(`Error: ${e.message}`);
     // console.log(e);

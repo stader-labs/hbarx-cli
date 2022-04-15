@@ -2,18 +2,29 @@
 
 Stader team brings this utility which would enable you to Stake with your CLI. The Web version is available at https://hedera.staderlabs.com/lt-pools
 
+## Requirements
+
+Please ensue you have the details handy before running the utility
+
+- Hedera Account Id
+- Hedera Private Key
+
 ## How to stake?
 
 - Download the recommended Node js LTS version from https://nodejs.org/en/
 - Install it on your system
 - Download the src of this repo from https://github.com/stader-labs/hbarx-cli/archive/refs/heads/main.zip
 - Unzip to a folder
-- Rename .env.example to .env
-- Open the .env file in a text editor (Notepad or TextEdit)
-- Add your account id and private key along with the amount you wish to stake in the file
+- Open the terminal/command application and navigate to the folder. e.g `cd /Users/rj/Downloads/hbarx-cli-main`
 - Run the following command from the command line terminal
-  - `node index.js`
+  - `npm install && node index.js`
+- Follow the instructions to STake
+- Verify the HBARX transferred to the account.
 
 ## Disclaimer
 
 Please note that this code is not audited. Use it at your own risk.
+
+## Report Issues
+
+You can report any issues found here - https://github.com/stader-labs/hbarx-cli/issues
