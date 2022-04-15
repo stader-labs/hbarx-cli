@@ -2,7 +2,7 @@
 
 Stader team brings this utility which would enable you to Stake with your CLI. The Web version is available at https://hedera.staderlabs.com/lt-pools
 
-## How to stake
+## How to stake?
 
 - Download the recommended Node js LTS version from https://nodejs.org/en/
 - Install it on your system
