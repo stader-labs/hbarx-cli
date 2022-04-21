@@ -4,7 +4,7 @@ Stader team brings this utility which would enable you to Stake with your CLI. T
 
 ## Requirements
 
-Please ensue you have the details handy before running the utility
+Please ensure you have the details handy before running the utility
 
 - Hedera Account Id
 - Hedera Private Key
