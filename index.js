@@ -3,7 +3,6 @@ import {
   AccountId,
   Client,
   ContractExecuteTransaction,
-  ContractFunctionParameters,
   Hbar,
   PrivateKey,
 } from "@hashgraph/sdk";
@@ -13,22 +12,17 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const client = Client.forMainnet();
-const tokenId = "0.0.834116";
+const client = Client.forTestnet();
+const tokenId = "0.0.34752691";
 
-const stake = async (operatorId, amount) => {
+const stake = async (amount) => {
   console.log(`Staking with ${amount} HBAR`);
-  const contractId = "0.0.834119";
+  const contractId = "0.0.34752698";
   const transaction = new ContractExecuteTransaction()
     .setContractId(contractId)
     .setGas(2000000)
     .setPayableAmount(new Hbar(amount))
-    .setFunction(
-      "stake",
-      new ContractFunctionParameters().addAddress(
-        operatorId.toSolidityAddress()
-      )
-    );
+    .setFunction("stake");
 
   const txEx = await transaction.execute(client);
   const txExRx = await txEx.getRecord(client);
@@ -73,7 +67,7 @@ const main = async () => {
           client.setOperator(operatorId, operatorKey);
           await getBalance(operatorId);
           rl.question("How much would you like to stake? ", async (amount) => {
-            await stake(operatorId, amount);
+            await stake(amount);
             await getBalance(operatorId);
             rl.close();
           });
