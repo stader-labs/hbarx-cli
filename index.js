@@ -13,21 +13,18 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const client = Client.forMainnet();
-const tokenId = "0.0.834116";
+const client = Client.forTestnet();
+const tokenId = "0.0.48247328";
 
-const stake = async (operatorId, amount) => {
+const stake = async (amount) => {
   console.log(`Staking with ${amount} HBAR`);
-  const contractId = "0.0.834119";
+  const contractId = "0.0.48247334";
   const transaction = new ContractExecuteTransaction()
     .setContractId(contractId)
     .setGas(2000000)
     .setPayableAmount(new Hbar(amount))
     .setFunction(
-      "stake",
-      new ContractFunctionParameters().addAddress(
-        operatorId.toSolidityAddress()
-      )
+      "stake"
     );
 
   const txEx = await transaction.execute(client);
@@ -39,6 +36,56 @@ const stake = async (operatorId, amount) => {
 
   if (txExRx.receipt.status.toString() === "SUCCESS") {
     console.log(`You have successfully staked ${amount} HBAR`);
+  } else {
+    console.log(`Something went wrong. Please try again`);
+  }
+};
+
+const unStake = async (amount) => {
+  console.log(`unStaking with ${amount} HBARX`);
+  const contractId = "0.0.48247334";
+  const transaction = new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(2000000)
+    .setFunction(
+      "unStake",
+      new ContractFunctionParameters().addUint256(amount * 10 ** 8)
+    );
+
+  const txEx = await transaction.execute(client);
+  const txExRx = await txEx.getRecord(client);
+
+  console.log(
+    `Check you transaction at https://v2.explorer.kabuto.sh/transaction/${txExRx.transactionId}`
+  );
+
+  if (txExRx.receipt.status.toString() === "SUCCESS") {
+    console.log(`You have successfully unStaked ${amount} HBARX`);
+  } else {
+    console.log(`Something went wrong. Please try again`);
+  }
+};
+
+const withdraw = async (index) => {
+  console.log(`withdrawing ${index} index`);
+  const contractId = "0.0.48247333";
+  const transaction = new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(2000000)
+    .setFunction(
+      'withdraw', 
+      new ContractFunctionParameters().addUint256(index)
+    );
+
+  const txEx = await transaction.execute(client);
+  const txExRx = await txEx.getRecord(client);
+
+  console.log(
+    `Check you transaction at https://v2.explorer.kabuto.sh/transaction/${txExRx.transactionId}`
+  );
+
+  if (txExRx.receipt.status.toString() === "SUCCESS") {
+    console.log(`You have successfully withdrawn`);
   } else {
     console.log(`Something went wrong. Please try again`);
   }
@@ -61,6 +108,7 @@ const getBalance = async (operatorId) => {
       console.log(`- Current HBARX balance: 0`);
     }
   }
+  
 };
 const main = async () => {
   try {
@@ -72,10 +120,32 @@ const main = async () => {
           const operatorKey = PrivateKey.fromString(privateKey);
           client.setOperator(operatorId, operatorKey);
           await getBalance(operatorId);
-          rl.question("How much would you like to stake? ", async (amount) => {
-            await stake(operatorId, amount);
-            await getBalance(operatorId);
+          rl.question("what would you like to do stake/unstake/withdraw?(case sensitive) ", async (name) => {
+          if(name == "stake"){
+            rl.question("How much would you like to stake? ", async (amount) => {
+              await stake(amount);
+              await getBalance(operatorId);
+              rl.close();
+            });
+          }
+          else if(name=="unstake"){
+            rl.question("How much would you like to unStake?(make sure you have HBARX) ", async (amount) => {
+              await unStake(amount);
+              await getBalance(operatorId);
+              rl.close();
+            });
+          }
+          else if(name=="withdraw"){
+            rl.question("Whats the index of withdraw?(its from 0 to the number of time you unstaked -1, Please make sure you have unstaked and undelegate time has reached, its 24 hours) ", async (index) => {
+              await withdraw(index);
+              await getBalance(operatorId);
+              rl.close();
+            });
+          }
+          else{
+            console.log("invalid input");
             rl.close();
+          }
           });
         }
       );
