@@ -55,7 +55,10 @@ const stake = async (amount) => {
   const txExRx = await txEx.getRecord(client);
 
   console.log(
-    `Check you transaction at https://v2.explorer.kabuto.sh/transaction/${txExRx.transactionId}`
+    `Check you transaction at https://hashscan.io/#/${network}/transaction/0.0.${txExRx.transactionId
+      .toString()
+      .replace("0.0.", "")
+      .replace(/[@.]/g, "-")}`
   );
 
   if (txExRx.receipt.status.toString() === "SUCCESS") {
@@ -79,7 +82,10 @@ const unStake = async (amount) => {
   const txExRx = await txEx.getRecord(client);
 
   console.log(
-    `Check you transaction at https://v2.explorer.kabuto.sh/transaction/${txExRx.transactionId}`
+    `Check you transaction at https://hashscan.io/#/${network}/transaction/0.0.${txExRx.transactionId
+      .toString()
+      .replace("0.0.", "")
+      .replace(/[@.]/g, "-")}`
   );
 
   if (txExRx.receipt.status.toString() === "SUCCESS") {
@@ -103,7 +109,10 @@ const withdraw = async (index) => {
   const txExRx = await txEx.getRecord(client);
 
   console.log(
-    `Check you transaction at https://v2.explorer.kabuto.sh/transaction/${txExRx.transactionId}`
+    `Check you transaction at https://hashscan.io/#/${network}/transaction/0.0.${txExRx.transactionId
+      .toString()
+      .replace("0.0.", "")
+      .replace(/[@.]/g, "-")}`
   );
 
   if (txExRx.receipt.status.toString() === "SUCCESS") {
@@ -174,7 +183,7 @@ const main = async () => {
           client.setOperator(operatorId, operatorKey);
           await getBalance(operatorId);
           await getExchangeRate();
-          await getUnbondingTime();
+          // await getUnbondingTime();
           rl.question(
             "what would you like to do stake/unstake/withdraw?(case sensitive) ",
             async (name) => {
