@@ -9,7 +9,7 @@ Please ensure you have the details handy before running the utility
 - Hedera Account Id
 - Hedera Private Key
 
-## How to stake?
+## How to Stake, Unstake or Withdraw?
 
 - Download the recommended Node js LTS version from https://nodejs.org/en/
 - Install it on your system
@@ -18,7 +18,7 @@ Please ensure you have the details handy before running the utility
 - Open the terminal/command application and navigate to the folder. e.g `cd /Users/rj/Downloads/hbarx-cli-main`
 - Run the following command from the command line terminal
   - `npm install && node index.js`
-- Follow the instructions to STake
+- Follow the instructions on the screen to stake, unstake, withdraw
 - Verify the HBARX transferred to the account.
 
 ## Disclaimer
